@@ -1,0 +1,64 @@
+/* CSS for base.html */
+
+/* Reset some default styles */
+body,
+html {
+  margin: 0;
+  padding: 0;
+}
+
+/* Set a minimum height for the viewport */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+/* Create a wrapper to push footer to the bottom */
+.wrapper {
+    flex: 1;
+    background-color:white /* Add your desired background color here */
+  }
+  
+  /* Header styles */
+  header {
+    padding: 20px;
+    text-align: center;
+    background-color: blanchedalmond; /* Inherit the background color from the wrapper */
+  }
+  
+
+
+/* Main content styles */
+.container {
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Footer styles */
+footer {
+  padding: 20px;
+  text-align: center;
+  background-color: #f2f2f2;
+  border-top: 1px solid #ddd;
+  margin-top: auto;
+}
+
+/* Media Queries */
+@media only screen and (max-width: 768px) {
+  /* Styles for tablets and smartphones */
+
+  /* Reduce header font size */
+  header {
+    font-size: 14px;
+  }
+
+  /* Reduce container padding */
+  .container {
+    padding: 10px;
+  }
+
+  /* Reduce footer padding */
+  footer {
+    padding: 10px;
+  }
+}

@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta author="Thomas">
+  <title>Base</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+  <style>
+    /* Add styles for flash messages */
+    .messages {
+      margin: 10px 0;
+    }
+    
+    .message {
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+    
+    .message.success {
+      background-color: #dff0d8;
+      color: #279b28;
+    }
+  </style>
+  <script>
+    // Auto-hide flash messages after 5 seconds
+    setTimeout(function() {
+      var messages = document.getElementsByClassName("message");
+      for (var i = 0; i < messages.length; i++) {
+        messages[i].style.display = "none";
+      }
+    }, 5000);
+  </script>
+</head>
+<div class="header">
+  <div class="logo">
+    <img src=" /media/images/Minimax.png"  alt="" height="40px" width="auto">
+     <img src=" /media/images/star.png"  alt="Stallion" height="30px" width="auto" class="middle">
+      <img src="/media/images/starr.png " height="300px" width="auto">
+     
+      
+  </div>
+</div>
+<body>
+  <div class="wrapper">
+
+    <main>
+      <div class="container">
+        {% if messages %}
+        <div class="messages">
+          {% for message in messages %}
+          <div class="message {{ message.tags }}">
+            {{ message }}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+      </div>
+    </main>
+  </div>
+
+  <footer>
+    &copy; 2023 
+  </footer>
+</body>
+</html>
+

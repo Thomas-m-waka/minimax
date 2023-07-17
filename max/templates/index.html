@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% load static %}
+  <meta author ="Thomas">
+  {% if user.is_authenticated %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <script src="{% static 'js/home.js' %}"></script>
+    <div class="container">
+      <div class="logout-container">
+        <a href="{% url 'logout' %}" class="button logout-button">Log Out</a>
+      </div>
+      <h3 class="registration-heading">SECURITY REGISTRATION</h3>
+      </div>
+      <div class="centered">
+        <h4>ENTRY</h4>
+        <a href="{% url 'withvehicle' %}" class="button {% if current_url == 'withvehicle' %}active{% endif %}" id="userButton">With vehicle</a>
+        <a href="{% url 'withoutvehicle' %}" class="button {% if current_url == 'withoutvehicle' %}active{% endif %}" id="visitorButton">Without vehicle</a>
+      </div>
+    </div>
+    <div class="centered">
+      <h4>EXIT</h4>
+      <a href="{% url 'ExitWithVehicle' %}" class="button" id="exitWithVehicleButton">With vehicle</a>
+      <a href="{% url 'ExitWithoutVehicle' %}" class="button" id="exitWithoutVehicleButton">Without vehicle</a>
+    </div>
+  {% else %}
+  <div class="centered" style="text-align: center; margin-top: 50px;">
+    <p style="font-weight: bold; font-size: 18px;">You're not logged in</p>
+    <a href="{% url 'login' %}" class="button login-button" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px;">Log In</a>
+  </div>
+
+  <script>
+    // Add your custom script here
+    document.addEventListener('DOMContentLoaded', function() {
+      // Add a click event listener to the login button
+      var loginButton = document.querySelector('.login-button');
+      loginButton.addEventListener('click', function(event) {
+        // You can add additional script logic here if needed
+        console.log('Custom script logic');
+      });
+    });
+  </script>
+  {% endif %}
+{% endblock %}
+

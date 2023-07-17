@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% load static %}
+
+  <meta name="author" content="Thomas">
+  <link rel="stylesheet" href="{% static 'css/exit_withvehicle.css' %}">
+
+  {% if user.is_authenticated %}
+    <a href="{% url 'home' %}" class="button">Back home</a>
+
+    <h3 class="user">WITH VEHICLE DETAILS</h3>
+    <div class="table-container">
+      <table>
+        <tr>
+          <th>NO.</th>
+          <th>NAME</th>
+          {% if user.is_superuser and user.is_authenticated %}
+            <th>ID NUMBER</th>
+          {% endif %}
+          <th>PHONE NUMBER</th>
+          <th>VEHICLE REGISTRATION</th>
+          <th>COMPANY</th>
+          <th>PURPOSE</th>
+          <th>TIME IN</th>
+          <th>TIME OUT</th>
+          <th>DATE</th>
+          {% if user.is_superuser and user.is_authenticated %}
+            <th>ID PHOTO</th>
+            <th>VEHICLE PHOTO</th>
+          {% endif %}
+          <th>Exit</th>
+        </tr>
+
+        {% for withvehicle in withvehicles %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ withvehicle.name }}</td>
+            {% if user.is_superuser and user.is_authenticated %}
+              <td>{{ withvehicle.id_number }}</td>
+            {% endif %}
+            <td>{{ withvehicle.phone_number }}</td>
+            <td>{{ withvehicle.vehicle_registration }}</td>
+           
+            <td>{{ withvehicle.company }}</td>
+            <td>{{ withvehicle.purpose }}</td>
+            <td>{{ withvehicle.time_in }}</td>
+            <td>{{ withvehicle.time_out }}</td>
+            <td>{{ withvehicle.today }}</td>
+            {% if user.is_superuser and user.is_authenticated %}
+              <td>
+                <div class="zoomable-container">
+                  <img src="{{ withvehicle.id_picture_front1.url }}" class="zoomable-image" height="20px" width="20px">
+                </div>
+              </td>
+              <td>
+                <div class="zoomable-container">
+                  <img src="{{ withvehicle.id_picture_front2.url }}" class="zoomable-image" height="20px" width="20px">
+                </div>
+              </td>
+            {% endif %}
+            <td>
+              {% if not withvehicle.time_updated %}
+                <form action="{% url 'update_withvehicle_time_out' withvehicle.id %}" method="POST">
+                  {% csrf_token %}
+                  <button type="submit">Exit</button>
+                </form>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        setTimeout(function() {
+          $('.flash-message').fadeOut('slow');
+        }, 4000);
+      });
+
+      document.addEventListener("contextmenu", function(e) {
+        e.preventDefault();
+      });
+
+      // Add click event listener to all zoomable images
+      var zoomableImages = document.getElementsByClassName("zoomable-image");
+      for (var i = 0; i < zoomableImages.length; i++) {
+        zoomableImages[i].addEventListener("click", function() {
+          if (this.classList.contains("zoomed")) {
+            this.classList.remove("zoomed"); // Remove zoomed class on double click
+          } else {
+            this.classList.add("zoomed"); // Add zoomed class on first click
+          }
+        });
+      }
+    </script>
+
+  {% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">Log In</a> |
+  {% endif %}
+{% endblock %}
+
+

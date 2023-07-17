@@ -1,0 +1,234 @@
+.error {
+  color: red;
+}
+
+input.error {
+  border-color: red;
+}
+.user {
+  color: rgb(182, 214, 224);
+  text-align: center;
+}
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .form-container {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+  
+  .form-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  input[type="text"],
+  input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  .submit-btn {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+  }
+ 
+  table {
+    width: 100%;
+    border: 2px solid black;
+    border-collapse: collapse;
+  }
+ 
+  th,
+  td {
+    border: 2px solid black;
+    padding: 5px;
+  }
+ 
+  th {
+    background-color: lightgray;
+  }
+ 
+  td {
+    text-align: center;
+  }
+ 
+/* Purpose label */
+label[for="purpose"] {
+  font-weight: bold;
+}
+
+/* Other purpose container */
+#other-purpose-container {
+  display: none;
+}
+
+/* Other purpose label */
+label[for="other_purpose"] {
+  font-weight: bold;
+}
+
+/* Other purpose input */
+#other_purpose {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ID camera container */
+#cameraContainer1 {
+  text-align: center;
+}
+
+/* Vehicle camera container */
+#cameraContainer2 {
+  text-align: center;
+  border-color: #4CAF50;
+}
+
+/* Start camera buttons */
+#startCameraButton1,
+#startCameraButton2 {
+  background-color: black;
+  color: white;
+}
+
+/* Video feeds */
+#videoFeed1,
+#videoFeed2 {
+  display: none;
+  height:fit-content;
+  width: 400px;
+}
+
+/* Capture buttons */
+#captureFrontButton1,
+#captureFrontButton2 {
+  background-color: rgb(51, 88, 190);
+  color: white;
+}
+
+/* Canvases */
+#canvas1,
+#canvas2 {
+  display: none;
+  height:fit-content;
+  width:400px;
+}
+
+/* Captured images */
+#frontImage1,
+#frontImage2 {
+  max-width: 100%;
+  margin-top: 10px;
+}
+
+/* Delete buttons */
+#deleteFrontButton1,
+#deleteFrontButton2 {
+  background-color: red;
+  color: white;
+}
+
+/* Hidden inputs */
+#id_picture_front1,
+#id_picture_front2 {
+  display: none;
+  text-decoration: wavy;
+  text-align: center;
+}
+
+.camera {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* CSS for the purpose select element */
+#purpose {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+
+
+
+  @media only screen and (max-width: 480px) {
+    /* Styles for smartphones */
+    .form-container {
+      max-width: 90%;
+      padding: 10px;
+      margin: 0 auto;
+    }
+  
+    .form-group {
+      margin-bottom: 10px;
+    }
+  
+    .form-label {
+      font-size: 12px;
+    }
+  
+    input[type="text"],
+    input[type="number"]
+    input[type=""] {
+      font-size: 12px;
+      padding: 8px;
+    }
+  
+    .submit-btn {
+      padding: 8px 16px;
+      font-size: 12px;
+    }}
+    .camera {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    @media screen and (max-width: 768px) {
+      .user {
+        font-size: 24px;
+      }
+    }
+    
+    @media screen and (min-width: 769px) {
+      .user {
+        font-size: 32px;
+      }
+    }

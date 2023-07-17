@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+   <title></title>
+   <link rel="stylesheet" href="{% static 'css/withoutvehicle.css' %}">
+   <style>
+      video {
+         border: 1px solid black;
+         display: block;
+         margin-bottom: 10px;
+      }
+
+      #captureFrontButton,
+      #deleteFrontButton {
+         display: none;
+      }
+   </style>
+</head>
+<body>
+  <a href="{% url 'home' %}" class="button">Back home</a>
+  <div class="container">
+   <form method="post" action="{% url 'withoutvehicle' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-container">
+          <div class="form-group">
+            <label for="name" class="form-label">Name:</label>
+            <input type="text" name="name" placeholder="Enter Your Name" class="form-input" required>
+            <span id="name-error" class="error"></span>
+         </div>
+         
+         <div class="form-group">
+            <label for="id_number" class="form-label">ID Number:</label>
+            <input type="number" name="id_number" placeholder="ID Number" class="form-input" required>
+            <span id="id_number-error" class="error"></span>
+         </div>
+         
+         <div class="form-group">
+            <label for="phone_number" class="form-label">Phone Number:</label>
+            <input type="number" name="phone_number" placeholder="Phone Number" class="form-input" required>
+            <span id="phone_number-error" class="error"></span>
+         </div>
+         
+           <div class="form-group">
+              <label for="company" class="form-label">Company:</label>
+              <input type="text" name="company" placeholder="Company" class="form-input" required>
+           </div>
+           <div class="form-group">
+              <div>
+                <label for="purpose">Purpose:</label>
+                <select id="purpose" name="purpose" class="form-input" required>
+                  <option value="" selected disabled>Select Purpose</option>
+                  <option value="Work">Work</option>
+                  <option value="Purchase">Purchase</option>
+                  <option value="Delivery">Delivery</option>
+                  <option value="Official">Official</option>
+                  <option value="Meeting">Meeting</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              
+              <div id="other-purpose-container" style="display: none;">
+                <label for="other_purpose">Please specify:</label>
+                <input type="text" id="other_purpose" name="other_purpose" placeholder="Please specify">
+              </div>
+           </div>
+           <div class="form-container">
+             <div class="form-group">
+                <div class="camera">
+                   <div id="cameraContainer1">
+                     <button id="startCameraButton">Access Camera (ID)</button>
+                     <video id="videoFeed" style="display: none;"></video>
+                     <button type="button" id="captureFrontButton">Capture ID Photo</button>
+
+                     <canvas id="canvas" style="display: none;"></canvas>
+                     <img id="frontImage" src="" alt="ID Photo">
+                     <button type="button" id="deleteFrontButton">Delete ID Photo</button>
+                     <input type="hidden" id="id_picture_front" name="id_picture_front" required>
+                   </div>
+                </div>
+             </div>
+           </div>
+           
+           <div class="form-group">
+              <input type="submit" value="Submit" class="submit-btn">
+           </div>
+        </div>
+        
+     </form>
+  </div>
+</body>
+<script src="{% static 'js/withoutvehicle.js'%}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+ var video = document.getElementById('videoFeed');
+ var frontImage = document.getElementById('frontImage');
+ var deleteButton = document.getElementById('deleteFrontButton');
+ var cameraStarted = false;
+
+ // Initialize camera
+ document.getElementById('startCameraButton').addEventListener('click', function() {
+   if (!cameraStarted) {
+     initializeCamera();
+     document.getElementById('startCameraButton').disabled = true;
+     document.getElementById('captureFrontButton').style.display = 'inline-block';
+     deleteButton.style.display = 'inline-block';
+     cameraStarted = true;
+   }
+ });
+
+ // Capture photo
+ document.getElementById('captureFrontButton').addEventListener('click', function() {
+   capturePhoto('id_picture_front', frontImage);
+   document.getElementById('captureFrontButton').style.display = 'none';
+   deleteButton.style.display = 'inline-block';
+   stopCamera();
+ });
+
+ // Delete photo
+ deleteButton.addEventListener('click', function() {
+   deletePhoto(frontImage, 'id_picture_front', deleteButton);
+   document.getElementById('captureFrontButton').style.display = 'inline-block';
+   deleteButton.style.display = 'none';
+   activateCamera();
+ });
+
+ // Function to initialize the camera
+ function initializeCamera() {
+   navigator.mediaDevices.getUserMedia({ video: true })
+     .then(function(stream) {
+       video.srcObject = stream;
+       video.style.display = 'block';
+       video.play();
+     })
+     .catch(function(error) {
+       console.log('Error accessing camera:', error);
+     });
+ }
+
+ // Function to capture the photo
+ function capturePhoto(inputFieldId, imageElement) {
+   var canvas = document.getElementById('canvas');
+   var context = canvas.getContext('2d');
+
+   // Set the canvas size to match the video size
+   canvas.width = video.videoWidth;
+   canvas.height = video.videoHeight;
+
+   // Draw the current video frame onto the canvas
+   context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+   // Convert the canvas image to base64 data
+   var imageData = canvas.toDataURL('image/png');
+
+   // Set the captured image data to the appropriate input field
+   document.getElementById(inputFieldId).value = imageData;
+
+   // Display the captured image
+   imageElement.src = imageData;
+ }
+
+ // Function to delete the photo
+ function deletePhoto(imageElement, inputFieldId, deleteButton) {
+   imageElement.src = '';
+   document.getElementById(inputFieldId).value = '';
+   deleteButton.style.display = 'none';
+ }
+
+ // Function to stop the camera
+ function stopCamera() {
+   var stream = video.srcObject;
+   var tracks = stream.getTracks();
+   tracks.forEach(function(track) {
+     track.stop();
+   });
+   video.srcObject = null;
+   video.style.display = 'none';
+ }
+
+ // Function to activate the camera
+ function activateCamera() {
+   video.style.display = 'block';
+   initializeCamera();
+ }
+
+ // The script for the purpose
+ var purposeSelect = document.getElementById("purpose");
+ var otherPurposeContainer = document.getElementById("other-purpose-container");
+
+ purposeSelect.addEventListener("change", function() {
+   if (purposeSelect.value === "Other") {
+     otherPurposeContainer.style.display = "block";
+   } else {
+     otherPurposeContainer.style.display = "none";
+   }
+ });
+
+ 
+</script>
+</html>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% load static %}
+
+  <meta author="Thomas">
+  <link rel="stylesheet" href="{% static 'css/exit_withoutvehicle.css' %}">
+
+  {% if user.is_authenticated %}
+    <a href="{% url 'home' %}" class="button">Back home</a>
+    <h3 class="user">WITHOUT VEHICLE DETAILS</h3>
+
+    <div class="table-container">
+      <table>
+        <tr>
+          <th>NO.</th>
+          <th>NAME</th>
+          {% if user.is_superuser and user.is_authenticated %}
+          <th>ID NUMBER</th>
+          {% endif %}
+          <th>PHONE NUMBER</th>
+          <th>COMPANY</th>
+          {% if user.is_superuser and user.is_authenticated %}
+          <th>PURPOSE</th>
+          {% endif %}
+          <th>TIME IN</th>
+          <th>TIME OUT</th>
+          <th>DATE</th>
+          {% if user.is_superuser and user.is_authenticated %}
+          <th>ID PHOTO</th>
+          {% endif %}
+          <th>EXIT</th>
+        </tr>
+
+        {% for withoutvehicle in withoutvehicles %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ withoutvehicle.name }}</td>
+            {% if user.is_superuser and user.is_authenticated %}
+            <td>{{ withoutvehicle.id_number }}</td>
+            {% endif %}
+            <td>{{ withoutvehicle.phone_number }}</td>
+            <td>{{ withoutvehicle.company }}</td>
+            {% if user.is_superuser and user.is_authenticated %}
+            <td>{{ withoutvehicle.purpose}}</td>
+            {% endif %}
+            <td>{{ withoutvehicle.time_in }}</td>
+            <td>{{ withoutvehicle.time_out }}</td>
+            <td>{{ withoutvehicle.today }}</td>
+            {% if user.is_superuser and user.is_authenticated %}
+            <td>
+
+              <div class="zoomable-container">
+                <img src="{{ withoutvehicle.id_picture_front.url }}" class="zoomable-image" height="20px" width="20px">
+              </div>
+              
+            </td>
+            {% endif %}
+            <td>
+              {% if not withoutvehicle.time_updated %}
+                <form action="{% url 'update_withoutvehicle_time_out' withoutvehicle.id %}" method="POST">
+                  {% csrf_token %}
+                  <button type="submit">Exit</button>
+                </form>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+
+    {% if messages %}
+      <div id="flash-messages" class="flash-message">
+        {% for message in messages %}
+          <p class="{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <script>
+      setTimeout(function() {
+        var flashMessages = document.getElementById('flash-messages');
+        if (flashMessages) {
+          flashMessages.remove();
+        }
+      }, 4000);
+
+      document.addEventListener("contextmenu", function(e) {
+        e.preventDefault();
+      });
+
+      // Add click event listener to all zoomable images
+      var zoomableImages = document.getElementsByClassName("zoomable-image");
+      for (var i = 0; i < zoomableImages.length; i++) {
+        zoomableImages[i].addEventListener("click", function() {
+          if (this.classList.contains("zoomed")) {
+            this.classList.remove("zoomed"); // Remove zoomed class on double click
+          } else {
+            this.classList.add("zoomed"); // Add zoomed class on first click
+          }
+        });
+      }
+    </script>
+
+  {% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">Log In</a> |
+  {% endif %}
+{% endblock %}
+

@@ -1,0 +1,115 @@
+
+header {
+  background-color: white;
+  color: white;
+  height: 200px;
+  width: auto;
+  padding: 5px;
+  text-align: left;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  background-color: white;
+  width: auto;
+  height: 150px;
+  color: rgb(12, 14, 14);
+  text-align: left;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}
+
+.logo img {
+  max-height: 150px;
+  padding: 20px;
+  opacity: 1;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .logo {
+    height: 100px;
+  }
+
+  .logo img {
+    max-height: 100px;
+    padding: 10px;
+  }
+
+  /* Reset header height */
+  header {
+    height: auto;
+  }
+}
+
+/* CSS for base.html */
+
+/* Reset some default styles */
+body,
+html {
+  margin: 0;
+  padding: 0;
+}
+
+/* Set a minimum height for the viewport */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Create a wrapper to push footer to the bottom */
+.wrapper {
+  flex: 1;
+  background-color: white; /* Add your desired background color here */
+}
+
+/* Main content styles */
+.container {
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Footer styles */
+footer {
+  padding: 20px;
+  text-align: center;
+  background-color: #f2f2f2;
+  border-top: 1px solid #ddd;
+  margin-top: auto;
+}
+
+/* Media Queries */
+@media only screen and (max-width: 480px) {
+  /* Styles for mobile devices */
+
+  /* Reset header height */
+  header {
+    height: auto;
+  }
+
+  .logo {
+    height: 80px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .logo img {
+    max-height: 80px;
+    padding: 5px;
+  }
+
+  /* Reduce container padding */
+  .container {
+    padding: 10px;
+  }
+
+  /* Reduce footer padding */
+  footer {
+    padding: 10px;
+  }
+}
