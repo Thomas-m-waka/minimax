@@ -130,7 +130,13 @@
 
  // Function to initialize the camera
  function initializeCamera() {
-   navigator.mediaDevices.getUserMedia({ video: true })
+   var constraints = {
+     video: {
+       facingMode: "environment"
+     }
+   };
+
+   navigator.mediaDevices.getUserMedia(constraints)
      .then(function(stream) {
        video.srcObject = stream;
        video.style.display = 'block';
@@ -199,7 +205,6 @@
    }
  });
 
- 
 </script>
 </html>
 {% endblock %}
