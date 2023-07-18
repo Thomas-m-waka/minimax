@@ -56,25 +56,26 @@
           <input type="text" name="company" placeholder="Company" class="form-input" required>
           <span id="company-error" class="error"></span>
        </div>
-            <div class="form-group">
-               <div>
-                 <label for="purpose">Purpose:</label>
-                 <select id="purpose" name="purpose" class="form-input" required>
-                   <option value="" selected disabled>Select Purpose</option>
-                   <option value="Work">Work</option>
-                   <option value="Purchase">Purchase</option>
-                   <option value="Delivery">Delivery</option>
-                   <option value="Official">Official</option>
-                   <option value="Meeting">Meeting</option>
-                   <option value="Other">Other</option>
-                 </select>
-               </div>
-               
-               <div id="other-purpose-container" style="display: none;">
-                 <label for="other_purpose">Please specify:</label>
-                 <input type="text" id="other_purpose" name="other_purpose" placeholder="Please specify">
-               </div>
-            </div>
+
+       <div class="form-group">
+        <div>
+          <label for="purpose">Purpose:</label>
+          <select id="purpose" name="purpose" class="form-input" required>
+            <option value="" selected disabled>Select Purpose</option>
+            <option value="Work">Work</option>
+            <option value="Purchase">Purchase</option>
+            <option value="Delivery">Delivery</option>
+            <option value="Official">Official</option>
+            <option value="Meeting">Meeting</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        
+        <div id="other-purpose-container" style="display: none;">
+          <label for="other_purpose">Please specify:</label>
+          <input type="text" id="other_purpose" name="other_purpose" placeholder="Please specify">
+        </div>
+     </div>
 
             <div class="form-container">
                <div class="form-group">
@@ -128,10 +129,10 @@
    var camera1Started = false;
    var camera2Started = false;
 
-   // Initialize ID camera
+   // Initialize ID back camera
    document.getElementById('startCameraButton1').addEventListener('click', function() {
      if (!camera1Started) {
-       initializeCamera(1);
+       initializeCamera(1, 'environment');
        document.getElementById('startCameraButton1').disabled = true;
        document.getElementById('captureFrontButton1').style.display = 'inline-block';
        deleteFrontButton1.style.display = 'inline-block';
@@ -155,10 +156,10 @@
      activateCamera(1);
    });
 
-   // Initialize vehicle camera
+   // Initialize vehicle back camera
    document.getElementById('startCameraButton2').addEventListener('click', function() {
      if (!camera2Started) {
-       initializeCamera(2);
+       initializeCamera(2, 'environment');
        document.getElementById('startCameraButton2').disabled = true;
        document.getElementById('captureFrontButton2').style.display = 'inline-block';
        deleteFrontButton2.style.display = 'inline-block';
@@ -183,9 +184,9 @@
    });
 
    // Function to initialize the camera
-   function initializeCamera(cameraNumber) {
+   function initializeCamera(cameraNumber, facingMode) {
      var video = document.getElementById(`videoFeed${cameraNumber}`);
-     navigator.mediaDevices.getUserMedia({ video: true })
+     navigator.mediaDevices.getUserMedia({ video: { facingMode: facingMode } })
        .then(function(stream) {
          video.srcObject = stream;
          video.style.display = 'block';
@@ -242,7 +243,7 @@
    function activateCamera(cameraNumber) {
      var video = document.getElementById(`videoFeed${cameraNumber}`);
      video.style.display = 'block';
-     initializeCamera(cameraNumber);
+     initializeCamera(cameraNumber, 'environment');
    }
 
    // The script for the purpose
